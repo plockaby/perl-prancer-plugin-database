@@ -10,9 +10,9 @@ sub main {
     # figure out where exist to make finding config files possible
     my (undef, $root, undef) = File::Basename::fileparse($0);
 
-	# this just returns a prancer object so we can get access to configuration
-	# options and other awesome things like plugins.
-	my $app = Prancer->new("${root}/foobar.yml");
+    # this just returns a prancer object so we can get access to configuration
+    # options and other awesome things like plugins.
+    my $app = Prancer->new("${root}/foobar.yml");
 
     # initialize the database
     Prancer::Plugin::Database->load();
