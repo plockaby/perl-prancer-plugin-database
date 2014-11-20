@@ -7,7 +7,7 @@ use version;
 our $VERSION = "1.00";
 
 use Prancer::Plugin;
-use parent qw(Exporter Prancer::Plugin);
+use parent qw(Prancer::Plugin Exporter);
 
 use Module::Load ();
 use Try::Tiny;
@@ -21,7 +21,7 @@ our @CARP_NOT = qw(Prancer Try::Tiny);
 
 sub load {
     my $class = shift;
-    my $self = $class->SUPER::load(@_);
+    my $self = bless({}, $class);
 
     my $handles = {};
     my $config = $self->config->remove('database');

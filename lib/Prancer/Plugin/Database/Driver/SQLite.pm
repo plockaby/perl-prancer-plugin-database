@@ -6,6 +6,9 @@ use warnings FATAL => 'all';
 use version;
 our $VERSION = "1.00";
 
+use Prancer::Plugin::Database::Driver;
+use parent qw(Prancer::Plugin::Database::Driver);
+
 use Try::Tiny;
 use Carp;
 
