@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use version;
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Prancer::Plugin;
 use parent qw(Prancer::Plugin Exporter);
@@ -23,13 +23,16 @@ sub load {
     my $class = shift;
     my $self = bless({}, $class);
 
-    my $handles = {};
-    my $config = $self->config->remove('database');
+    my $config = $self->config->remove("database");
+    unless (defined($config) && ref($config) && ref($config) eq "HASH") {
+        croak "could not initialize database connection: no configuration found";
+    }
 
+    my $handles = {};
     for my $key (keys %{$config}) {
         my $subconfig = $config->{$key};
 
-        unless (ref($subconfig) && ref($subconfig) eq "HASH" && $subconfig->{'driver'}) {
+        unless (defined($subconfig) && ref($subconfig) && ref($subconfig) eq "HASH" && $subconfig->{'driver'}) {
             croak "could not initialize database connection '${key}': no database driver configuration";
         }
 
@@ -41,7 +44,7 @@ sub load {
             Module::Load::load($module);
 
             # make sure it has necessary implementation details
-            die "${module} does not implement 'handle'\n" unless ($module->can('handle'));
+            die "${module} does not implement 'handle'\n" unless ($module->can("handle"));
 
             # make the connection to the database
             $handles->{$key} = $module->new($subconfig->{'options'}, $key);
@@ -121,7 +124,7 @@ For example:
     Prancer::Plugin::Database->load();
 
     my $dbh = database;  # returns whatever connection is called "default"
-    my $dbh = database('foo');  # returns the connection called "foo"
+    my $dbh = database("foo");  # returns the connection called "foo"
 
 =head1 OPTIONS
 
