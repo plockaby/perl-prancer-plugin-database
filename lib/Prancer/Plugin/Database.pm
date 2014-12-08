@@ -60,6 +60,9 @@ sub load {
         no strict 'refs';
         no warnings 'redefine';
         *{"${\__PACKAGE__}::database"} = sub {
+            my $this = ref($_[0]) && $_[0]->isa(__PACKAGE__) ?
+                shift : (defined($_[0]) && $_[0] eq __PACKAGE__) ?
+                bless({}, shift) : bless({}, __PACKAGE__);
             return $self->_database(@_);
         };
     }
