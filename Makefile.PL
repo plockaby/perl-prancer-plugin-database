@@ -10,7 +10,7 @@ WriteMakefile(
     'AUTHOR'        => 'Paul Lockaby <plockaby AT cpan DOT org>',
     'VERSION_FROM'  => 'lib/Prancer/Plugin/Database.pm',
     'PREREQ_PM'     => {
-        'Prancer'   => '0.990003',
+        'Prancer'   => '1.00',
         'DBI'       => '0',
         'Try::Tiny' => '0',
         'perl'      => '5.010',  # because "//" is used

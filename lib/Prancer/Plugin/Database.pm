@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use version;
-our $VERSION = '0.990002';
+our $VERSION = '1.00';
 
 use Prancer::Plugin;
 use parent qw(Prancer::Plugin Exporter);
@@ -176,14 +176,5 @@ gone away. If this is not set then it will default to 30 seconds.
 
 =back
 
-=head1 SEE ALSO
-
-=over 4
-
-=item L<Prancer::Plugin::Database::Driver::SQLite>
-=item L<Prancer::Plugin::Database::Driver::Pg>
-=item L<Prancer::Plugin::Database::Driver::MySQL>
-
-=back
-
 =cut
+
