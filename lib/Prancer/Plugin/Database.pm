@@ -176,5 +176,25 @@ gone away. If this is not set then it will default to 30 seconds.
 
 =back
 
+=head1 CREDIT
+
+This module is derived from L<Dancer::Plugin::Database>. Thank you to David
+Precious.
+
+=head1 COPYRIGHT
+
+Copyright 2014 Paul Lockaby. All rights reserved.
+
+This library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+=over
+
+=item L<Prancer>
+
+=back
+
 =cut
 
