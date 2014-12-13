@@ -8,3 +8,6 @@ severity = harsh
 #     Constants are used for compatibility reasons.
 exclude = RequireArgUnpacking ProhibitImplicitNewlines
 
+[TestingAndDebugging::ProhibitNoStrict]
+allow = refs
+

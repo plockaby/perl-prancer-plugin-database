@@ -21,9 +21,21 @@ our @CARP_NOT = qw(Prancer Try::Tiny);
 
 sub load {
     my $class = shift;
+
+    # already got an object
+    return $class if ref($class);
+
+    # this is a singleton
+    my $instance = undef;
+    {
+        no strict 'refs';
+        $instance = \${"${class}::_instance"};
+        return $$instance if defined($$instance);
+    }
+
     my $self = bless({}, $class);
 
-    my $config = $self->config->remove("database");
+    my $config = $self->config->get("database");
     unless (defined($config) && ref($config) && ref($config) eq "HASH") {
         croak "could not initialize database connection: no configuration found";
     }
@@ -53,6 +65,7 @@ sub load {
             croak "could not initialize database connection '${key}': not able to load ${module}: ${error}";
         };
     }
+    $self->{'_handles'} = $handles;
 
     # now export the keyword with a reference to $self
     {
@@ -67,7 +80,7 @@ sub load {
         };
     }
 
-    $self->{'_handles'} = $handles;
+    $$instance = $self;
     return $self;
 }
 
@@ -97,8 +110,8 @@ It's important to remember that when running your application in a single-
 threaded, single-process application server like, say, L<Twiggy>, all users of
 your application will use the same database connection. If you are using
 callbacks then this becomes very important and you will want to take care to
-avoid crossing transactions or to avoid expecting a database connection or
-transaction to be in the same state it was before a callback.
+avoid crossing transactions or expecting a database connection or transaction
+to be in the same state it was before a callback.
 
 To use a database connector, add something like this to your configuration
 file:
@@ -200,4 +213,3 @@ the same terms as Perl itself.
 =back
 
 =cut
-

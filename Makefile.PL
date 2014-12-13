@@ -12,8 +12,8 @@ WriteMakefile(
     'PREREQ_PM'     => {
         'Prancer'   => '1.00',
         'DBI'       => '0',
+        'DBD::Mock' => '0',
         'Try::Tiny' => '0',
-        'perl'      => '5.010',  # because "//" is used
     },
     'INSTALLDIRS'   => (($] < 5.011) ? 'perl' : 'site'),
 

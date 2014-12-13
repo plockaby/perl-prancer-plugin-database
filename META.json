@@ -34,11 +34,11 @@
          "requires" : {
             "Prancer" : "1.00",
             "DBI" : "0",
-            "Try::Tiny" : "0",
-            "perl" : "5.010"
+            "DBD::Mock" : "0",
+            "Try::Tiny" : "0"
          }
       }
    },
-   "release_status" : "experimental",
+   "release_status" : "stable",
    "version" : "1.00"
 }

@@ -47,9 +47,9 @@ sub new {
 sub handle {
     my $self = shift;
 
-    # to be fork safe and thread safe, use a combination of the PID and TID (if running
-    # with use threads) to make sure no two processes/threads share a handle.
-    # implementation based on DBIx::Connector by David E. Wheeler
+    # to be fork safe and thread safe, use a combination of the PID and TID (if
+    # running with use threads) to make sure no two processes/threads share a
+    # handle. implementation based on DBIx::Connector by David E. Wheeler
     my $pid_tid = $$;
     $pid_tid .= "_" . threads->tid if $INC{'threads.pm'};
 
@@ -117,9 +117,9 @@ sub _check_connection {
             # DB driver itself claims all is OK, trust it:
             return 1;
         } else {
-            # it was "0 but true", meaning the DBD doesn't implement ping and
+            # it was "0 but true" meaning the DBD doesn't implement ping and
             # instead we got the default DBI ping implementation. implement
-            # our own basic check, by performing a real simple query.
+            # our own basic check by performing a real simple query.
             return try {
                 return $dbh->do("SELECT 1");
             } catch {

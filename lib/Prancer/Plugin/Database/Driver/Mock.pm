@@ -1,4 +1,4 @@
-package Prancer::Plugin::Database::Driver::SQLite;
+package Prancer::Plugin::Database::Driver::Mock;
 
 use strict;
 use warnings FATAL => 'all';
@@ -20,28 +20,24 @@ sub new {
     my $self = bless($class->SUPER::new(@_), $class);
 
     try {
-        require DBD::SQLite;
+        require DBD::Mock;
     } catch {
         my $error = (defined($_) ? $_ : "unknown");
-        croak "could not initialize database connection '${\$self->{'_connection'}}': could not load DBD::SQLite: ${error}";
+        croak "could not initialize database connection '${\$self->{'_connection'}}': could not load DBD::Mock: ${error}";
     };
 
     my $database = $self->{'_database'};
-    my $charset  = $self->{'_charset'};
 
     # if autocommit isn't configured then enable it by default
     my $autocommit = (defined($self->{'_autocommit'}) ? ($self->{'_autocommit'} =~ /^(1|true|yes)$/ix ? 1 : 0) : 1);
 
-    my $dsn = "dbi:SQLite:dbname=${database}";
+    my $dsn = "dbi:Mock:";
 
     my $params = {
         'AutoCommit' => $autocommit,
         'RaiseError' => 1,
         'PrintError' => 0,
     };
-    if ($charset && $charset =~ /^utf8$/xi) {
-        $params->{'sqlite_unicode'} = 1;
-    }
 
     $self->{'_dsn'} = [ $dsn, undef, undef, $params ];
     return $self;

@@ -31,11 +31,7 @@ package Foo;
 use strict;
 use warnings FATAL => 'all';
 
-# this loads all of the prancer components. by including ":initialize", this
-# module gets to implement ->initialize which will be called when the module is
-# created. by including ":handler", this module gets to implement ->handler
-# which will receive all PSGI calls.
-use Prancer qw(config :initialize :handler);
+use Prancer qw(config);
 
 # load the database plugin
 use Prancer::Plugin::Database qw(database);
