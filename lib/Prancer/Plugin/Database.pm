@@ -208,7 +208,9 @@ the same terms as Perl itself.
 
 =over
 
-=item L<Prancer>
+=item
+
+L<Prancer>
 
 =back
 
