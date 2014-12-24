@@ -2,3 +2,6 @@ Revision history for Perl extension Prancer::Plugin::Database
 
 1.00 Sat Dec 13 05:45:34 UTC 2014
 	- Initial release.
+
+1.01 Wed Dec 24 04:50:14 UTC 2014
+	- Fixing unit tests, example code, perl docs
