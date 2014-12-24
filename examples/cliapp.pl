@@ -3,6 +3,8 @@
 use strict;
 use warnings FATAL => 'all';
 
+use File::Basename ();
+
 use Prancer::Core qw(config);
 use Prancer::Plugin::Database qw(database);
 
