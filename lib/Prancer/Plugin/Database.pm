@@ -35,7 +35,7 @@ sub load {
 
     my $self = bless({}, $class);
 
-    my $config = $self->config->get("database");
+    my $config = ($self->config() && $self->config->get("database")) || {};
     unless (defined($config) && ref($config) && ref($config) eq "HASH") {
         croak "could not initialize database connection: no configuration found";
     }
