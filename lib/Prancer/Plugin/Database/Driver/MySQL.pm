@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use version;
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 use Prancer::Plugin::Database::Driver;
 use parent qw(Prancer::Plugin::Database::Driver);
@@ -48,6 +48,9 @@ sub new {
     if ($charset && $charset =~ /^utf8$/xi) {
         $params->{'mysql_enable_utf8'} = 1;
     }
+
+    # merge in any additional dsn_params
+    $params = $self->_merge($params, $self->{'_dsn_extra'});
 
     $self->{'_dsn'} = [ $dsn, $username, $password, $params ];
     return $self;

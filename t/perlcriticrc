@@ -11,3 +11,6 @@ exclude = RequireArgUnpacking ProhibitImplicitNewlines
 [TestingAndDebugging::ProhibitNoStrict]
 allow = refs
 
+[NamingConventions::ProhibitAmbiguousNames]
+forbid = close last
+

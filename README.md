@@ -8,12 +8,11 @@ This plugin enables connections to a database and exports a keyword to access
 those configured connections.
 
 It's important to remember that when running your application in a single-
-threaded, single-process application server like, say,
-[Twiggy](https://metacpan.org/pod/Twiggy), all users of your application will
-use the same database connection. If you are using callbacks then this becomes
-very important and you will want to take care to avoid crossing transactions or
-expecting a database connection or transaction to be in the same state it was
-before a callback.
+threaded, single-process application server like, say, [Twiggy](https://metacpan.org/pod/Twiggy), all users of
+your application will use the same database connection. If you are using
+callbacks then this becomes very important and you will want to take care to
+avoid crossing transactions or expecting a database connection or transaction
+to be in the same state it was before a callback.
 
 To use a database connector, add something like this to your configuration
 file:
@@ -30,6 +29,11 @@ file:
                 autocommit: true
                 charset: utf8
                 connection_check_threshold: 10
+                dsn_extra:
+                    RaiseError: 0
+                    PrintError: 1
+                on_connect:
+                    - SET search_path=public
 
 The "connection-name" can be anything you want it to be. This will be used when
 requesting a connection from the plugin to determine which connection to return.
@@ -90,9 +94,25 @@ For example:
     database handle hasn't been used in a while and the underlying connection has
     gone away. If this is not set then it will default to 30 seconds.
 
+- dsn\_extra
+
+    If you have any further connection parameters that need to be appended to the
+    dsn then you can put them in the configuration as a hash. This hash will be
+    merged into the default parameters and overwrite any that are duplicated. The
+    dsn parameters set by default are `AutoCommit` to 1, `RaiseError` to 1, and
+    `PrintError` to 0. This option will take precedence over the `autocommit`
+    flag above.
+
+- on\_connect
+
+    This can be an array of commands execute on a successful connection. These will
+    be executed on every connection so if the connection goes away but is re-
+    established then these commands will be run again.
+
 # CREDIT
 
-This module is derived from [Dancer::Plugin::Database](https://metacpan.org/pod/Dancer::Plugin::Database). Thank you to David Precious.
+This module is derived from [Dancer::Plugin::Database](https://metacpan.org/pod/Dancer::Plugin::Database). Thank you to David
+Precious.
 
 # COPYRIGHT
 
