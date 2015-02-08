@@ -36,17 +36,29 @@ file:
                     - SET search_path=public
 
 The "connection-name" can be anything you want it to be. This will be used when
-requesting a connection from the plugin to determine which connection to return.
-If only one connection is configured it may be prudent to call it "default" as
-that is the name that Prancer will look for if no connection name is given.
-For example:
+requesting a connection from the plugin to determine which connection to
+return. If only one connection is configured and no specific connection name is
+requested then the only configured connection will be returned. If more than
+one connection is configured and no specific connection name is requested then
+any connection that is named "default" will be used. Otherwise an error will be
+thrown. For example:
 
     use Prancer::Plugin::Database qw(database);
 
     Prancer::Plugin::Database->load();
 
-    my $dbh = database;  # returns whatever connection is called "default"
-    my $dbh = database("foo");  # returns the connection called "foo"
+    # if only one connection is configured then this will return that
+    # connection
+    my $dbh = database;
+
+    # if multiple connections are configured and one of them is called
+    # "default" then this will return the connection named "default" or throw
+    # an error if no connection is named "default"
+    my $dbh = database;
+
+    # this will return a configured connection named "foo" or throw an error if
+    # no connections are named "foo"
+    my $dbh = database("foo");
 
 # OPTIONS
 
@@ -116,7 +128,7 @@ Precious.
 
 # COPYRIGHT
 
-Copyright 2014 Paul Lockaby. All rights reserved.
+Copyright 2014, 2015 Paul Lockaby. All rights reserved.
 
 This library is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
