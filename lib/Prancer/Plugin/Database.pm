@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use version;
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 use Prancer::Plugin;
 use parent qw(Prancer::Plugin Exporter);
@@ -85,14 +85,49 @@ sub load {
 }
 
 sub _database {
-    my $self = shift;
-    my $connection = shift || "default";
+    my ($self, $connection) = @_;
 
-    if (!exists($self->{'_handles'}->{$connection})) {
-        croak "could not get connection to database: no connection named '${connection}'";
+    if ($connection) {
+        if (!exists($self->{'_handles'}->{$connection})) {
+            croak "could not get connection to database: no connection named '${connection}'";
+        }
+
+        return $self->{'_handles'}->{$connection}->handle();
     }
 
-    return $self->{'_handles'}->{$connection}->handle();
+    # down here when there is no connection name given
+
+    # if only one connection exists then use that one
+    if (scalar(keys %{$self->{'_handles'}}) == 1) {
+        $connection = (keys %{$self->{'_handles'}})[0];
+        return $self->{'_handles'}->{$connection}->handle();
+    }
+
+    # if a connection named "default" exists then use that
+    if (exists($self->{'_handles'}->{'default'})) {
+        $connection = 'default';
+        return $self->{'_handles'}->{$connection}->handle();
+    }
+
+    # if more than one connection exists then croak for that
+    if (scalar(keys %{$self->{'_handles'}}) > 1) {
+        croak "could not get connection to database: no connection name given and multiple connections exist\n";
+    }
+
+    # no connections actually exist
+    croak "could not get connection to database: no connections defined\n";
+
+#     my $self = shift;
+#     my $connection = shift;
+#     my $connection = shift || "default";
+#
+#
+#
+#     if (!exists($self->{'_handles'}->{$connection})) {
+#         croak "could not get connection to database: no connection named '${connection}'";
+#     }
+#
+#     return $self->{'_handles'}->{$connection}->handle();
 }
 
 1;
